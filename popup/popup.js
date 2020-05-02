@@ -134,27 +134,6 @@ $(document).ready(() => {
       for(let peerId in userPeers){
         userPeers[peerId].send({raygunAvatar : data});
       }
-
-      // var FR= new FileReader();
-      // FR.addEventListener("load", function(e) {
-      //   //COMPRESS
-      //   const img = new Image();
-      //   img.src = e.target.result;
-      //   img.onload = () => {
-      //     const canvas = document.createElement('canvas');
-      //     const width = 100;
-      //     const scaleFactor = width / img.width;
-      //     canvas.width = width;
-      //     canvas.height = img.height * scaleFactor;
-      //     const ctx = canvas.getContext('2d')
-      //     ctx.drawImage(img, 0, 0, width, img.height * scaleFactor);
-      //     const data = ctx.canvas.toDataURL(img, 'image/png', 0.1);
-      //     console.log(data);
-      //
-      //
-      //   }
-      // });
-      // FR.readAsDataURL( el.files[0] );
     }
   })
   $('.raygun-user-avatar-change').click(() => {
@@ -165,6 +144,7 @@ $(document).ready(() => {
   $('.raygun-name-input').on('change', (e) => {
     const name = $('.raygun-name-input').val();
     if(name.length > 0){
+      socket.emit("Change Name", {username, name});
       chrome.storage.sync.set({raygunName : name})
       for(let peerId in userPeers){
         userPeers[peerId].send({raygunName : name});
@@ -187,31 +167,27 @@ const startApp = async (d) => {
         raygunPassword: $('.raygun-password-input').val(),
       })
     }else if(result.raygunUsername){
-      username = result.raygunUsername;
+      if(result.raygunUsername != username){
+        chrome.storage.sync.set({
+          raygunUsername: username,
+          raygunPassword: password
+        })
+      }
     }
   });
 
-  console.log(d.avatar);
   $('.raygun-user-avatar-image').attr('src', d.avatar);
+  $('.raygun-name-input').val(d.name);
+
 
   for(let peerId in d.peers){
     if(peerId == peer.id) continue;
     userPeers[peerId] = peer.connect(peerId);
     syncPeer(userPeers[peerId]);
   }
-
-  chrome.storage.sync.get(['raygunName'], (result) => {
-    if(!result) return;
-    let name = result.raygunName ? result.raygunName : d.name;
-    $('.raygun-name-input').val(name);
-    chrome.storage.sync.set({
-      raygunName: name
-    })
-  })
 }
 
 const syncPeer = async (conn) => {
-  console.log(conn.peer);
   conn.on('open', function() {
 
     // Receive messages

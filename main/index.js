@@ -17,6 +17,8 @@ let username;
 let password;
 let userPeers = {};
 let dimPeers = {};
+let avatar;
+let name;
 
 $(document).ready(async () => {
 
@@ -120,16 +122,13 @@ const startApp = async (d) => {
   userAvatarEl.className = 'raygun-user-avatar';
   $(userEl).append(userAvatarEl);
   $(userAvatarEl).attr('src', d.avatar);
+  avatar = d.avatar;
   let userNameEl = document.createElement('div');
   userNameEl.className = 'raygun-user-name';
+  $(userNameEl).text(d.name);
+  name = d.name;
   $(userEl).append(userNameEl);
   $('.raygun-all').append(userEl);
-
-
-  chrome.storage.sync.get(['raygunName'], (result) => {
-    if(!result || !result.raygunName) return;
-    $(userNameEl).text(result.raygunName);
-  })
 
   //USER POSITION
   $(document.body).on('mousemove', (e) => {
@@ -141,7 +140,9 @@ const startApp = async (d) => {
       left : mouseX,
       top : mouseY
     }, 10, 'linear');
-    // gun.user().get('position').put(JSON.stringify({left : mouseX, top : mouseY}));
+    for(let peerId in dimPeers){
+      dimPeers[peerId].send({raygunLeft : mouseX, raygunTop : mouseY});
+    }
   }, 20)
 
   //USER MESSAGE
@@ -150,7 +151,9 @@ const startApp = async (d) => {
       const msg = $(messageElInput).val();
       $(messageElInput).val("");
       messageElInput.blur();
-      // gun.user().get('message').put(msg);
+      for(let peerId in dimPeers){
+        dimPeers[peerId].send({raygunMessage : msg});
+      }
       $(userMessageEl).text(msg);
       $(userMessageEl).css('display', 'flex');
       setTimeout(() => {
@@ -161,43 +164,75 @@ const startApp = async (d) => {
   })
 
   //JOIN CURRENT DIMENSION AND RECIEVE THE USERS
-  // let dimLoaded = false;
-  // gun.user().get('currentDimension').once(async (currentDimension) => {
-  //   if(!currentDimension){
-  //     currentDimension = "Valoria";
-  //     gun.user().get('currentDimension').put("Valoria");
-  //   }
-  //   const pubKeyHash = await SEA.work(gun.user()._.sea.pub, null, null, {name: "SHA-256"});
-  //   gun.get(`dimension-${currentDimension}-peers#`).get(pubKeyHash).put(gun.user()._.sea.pub)
-  //   //COME UP WITH A GOOD ACTIVE USER SYSTEM.
-  //   gun.get(`dimension-${currentDimension}-peers#`).on((peers) => {
-  //     console.log(peers);
-  //     if(!peers) return;
-  //     for(let peerHash in peers){
-  //       const peerPub = peers[peerHash];
-  //       if(peerPub === gun.user()._.sea.pub) return;
-  //       gun.user(peerPub).on((peer) => {
-  //         console.log(peer)
-  //       })
-  //     }
-  //   })
-  // })
+  socket.emit("Get Peers in Dimension", currentDimension);
+  socket.on("Get Peers in Dimension", (peers) => {
+    for(let username in peers){
+      for(let peerId in peers[username]){
+        if(userPeers[peerId] || dimPeers[peerId]) continue;
+        dimPeers[peerId] = peer.connect(peerId);
+        syncPeer(dimPeers[peerId]);
+      }
+    }
+  })
 
 }
 
 const syncPeer = async (conn) => {
   conn.on('open', function() {
-    conn.on('data', function(data) {
-      if(userPeers[conn.peer]){
+
+    if(userPeers[conn.peer]){
+      conn.on('data', function(data) {
         if(data.raygunAvatar){
+          avatar = data.raygunAvatar;
           $('.raygun-user-avatar').attr('src', data.raygunAvatar);
         }
         if(data.raygunName){
+          name = data.raygunName;
           $('.raygun-user-name').text(data.raygunName);
         }
-      }else {
-        console.log("Other Peer", data);
-      }
-    });
+      });
+    }else if(dimPeers[conn.peer]){
+      conn.send({raygunName : name, raygunAvatar : avatar});
+
+      let peerEl = document.createElement('div');
+      peerEl.className = `raygun-peer raygun-peer-${conn.peer}`;
+      let peerMessageEl = document.createElement('div');
+      peerMessageEl.className = `raygun-peer-message raygun-peer-message-${conn.peer}`;
+      $(peerEl).append(peerMessageEl);
+      let peerAvatarEl = document.createElement('img');
+      peerAvatarEl.className = `raygun-peer-avatar raygun-peer-avatar-${conn.peer}`;
+      $(peerEl).append(peerAvatarEl);
+      let peerNameEl = document.createElement('div');
+      peerNameEl.className = `raygun-peer-name raygun-peer-name-${conn.peer}`;
+      $(peerEl).append(peerNameEl);
+      $('.raygun-all').append(peerEl);
+
+      conn.on('data', (data) => {
+        if(data.raygunAvatar){
+          $(`.raygun-peer-avatar-${conn.peer}`).attr('src', data.raygunAvatar);
+        }
+        if(data.raygunName){
+          $(`.raygun-peer-name-${conn.peer}`).text(data.raygunName);
+        }
+        if(data.raygunLeft && data.raygunTop){
+          $(`.raygun-peer-${conn.peer}`).animate({
+            left : data.raygunLeft,
+            top : data.raygunTop
+          }, 10, 'linear');
+        }
+        if(data.raygunMessage){
+          $(peerMessageEl).text(data.raygunMessage);
+          $(peerMessageEl).css('display', 'flex');
+          setTimeout(() => {
+            $(peerMessageEl).text("");
+            $(peerMessageEl).css('display', 'none');
+          }, 8000)
+        }
+
+      })
+
+    }
+
+
   });
 }

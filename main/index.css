@@ -94,3 +94,47 @@
   border: 2px solid #8e015c;
   background : #ffffffaa;
 }
+
+.raygun-peer {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  align-items: center;
+  width : 120px;
+  top : 100px;
+  left : 100px;
+  z-index: 10000000000000
+}
+
+.raygun-peer-message {
+  color : white;
+  text-shadow: rgb(62, 162, 111) 2px 2px 8px, rgb(255, 49, 173) -2px -2px 8px, rgb(62, 162, 111) 2px -2px 8px, rgb(255, 49, 173) -2px 2px 10px, rgb(0, 0, 0) 0px 0px 10px;
+  text-align: left;
+  background: #d62397;
+  border-radius: 8px;
+  border : 2px solid #8e015c;
+  padding: 4px;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 4px;
+  display: none;
+}
+
+.raygun-peer-avatar {
+  border-radius: 100%;
+  width : 100px;
+  height : 100px;
+}
+
+.raygun-peer-name {
+  color : white;
+  text-shadow: rgb(62, 162, 111) 2px 2px 8px, rgb(255, 49, 173) -2px -2px 8px, rgb(62, 162, 111) 2px -2px 8px, rgb(255, 49, 173) -2px 2px 10px, rgb(0, 0, 0) 0px 0px 10px;
+  text-align: center;
+  background: #d62397;
+  border-radius: 8px;
+  border : 2px solid #8e015c;
+  padding: 4px;
+  font-weight: bold;
+  margin-top: 4px;
+  font-size: 14px;
+}
