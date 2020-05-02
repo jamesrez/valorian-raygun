@@ -1,0 +1,23 @@
+{
+  "name": "raygun",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "crypto-js": "^4.0.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "gun": "^0.2020.421",
+    "ipfs": "0.40.0",
+    "lru": "^3.1.0",
+    "orbit-db": "github:orbitdb/orbit-db#fix/persistent-keystore",
+    "orbit-db-identity-provider": "^0.3.0",
+    "orbit-db-keystore": "^0.3.4",
+    "pug": "^2.0.4"
+  }
+}

@@ -1,0 +1,226 @@
+@font-face {
+  font-family: 'Futura2';
+  src: url('Futura.woff')  format('WOFF'),
+  url('Futura.ttf')  format('truetype') /* Safari, Android, iOS */
+}
+
+body {
+  margin : 0;
+  font-family: Futura, "Futura2", "Trebuchet MS", Arial, sans-serif;
+}
+
+.raygun-popup {
+  width : 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin : 0px;
+  border : 3px solid #8e015c;
+}
+
+.raygun-nav {
+  background : #d62397;
+  height : 30px;
+  width : 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  border-bottom: 3px solid #8e015c;
+  padding : 4px 0px;
+}
+
+.raygun-title {
+  font-size: 18px;
+  font-weight: bold;
+  text-align: center;
+  color : #e1fffa;
+  text-shadow: rgb(62, 162, 111) 2px 2px 8px, rgb(255, 49, 173) -2px -2px 8px, rgb(62, 162, 111) 2px -2px 8px, rgb(255, 49, 173) -2px 2px 10px, rgb(0, 0, 0) 0px 0px 10px;
+}
+
+.raygun-main {
+  padding-top: 8px;
+  width : 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffbfd1;
+  height : 100%;
+  padding-bottom : 24px;
+}
+
+.raygun-config {
+  width : 95%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.raygun-config-desc {
+  color : black;
+  font-weight: bold;
+  font-size: 13px;
+  text-align: left;
+}
+
+.raygun-config-form {
+  margin-top: 6px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.config-label {
+  font-weight: bold;
+  width : 90%;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.config-input {
+  width : 90%;
+  padding: 4px;
+  margin-top: 4px;
+  border-radius: 8px;
+  outline: none;
+  font-weight: bold;
+  font-size: 16px;
+  border : 3px solid #8e015c;
+}
+
+.raygun-config-error {
+  color : #ce0043;
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 8px;
+}
+
+.raygun-config-create {
+  font-weight: bold;
+  width : 200px;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 8px;
+  padding: 8px;
+  border : 3px solid #8e015c;
+  border-radius: 16px;
+  cursor : pointer;
+  background: #ffeaf0;
+}
+
+.raygun-config-create:hover {
+  background: #ffdae4;
+}
+
+.raygun-config-login {
+  font-weight: bold;
+  width : 200px;
+  font-size: 15px;
+  text-align: center;
+  margin-top: 8px;
+  padding: 8px;
+  border : 3px solid #8e015c;
+  border-radius: 16px;
+  cursor : pointer;
+  background: #ffeaf0;
+}
+
+.raygun-config-login:hover {
+  background: #ffdae4;
+}
+
+.raygun-app {
+  width : 95%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+
+.raygun-current-dimension {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.raygun-user-avatar-label {
+  margin-top: 8px;
+  font-weight: bold;
+  text-align: center;
+  font-size: 16px;
+  width : 90%;
+  margin-bottom: 2px;
+}
+
+.raygun-user-avatar {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  width : 108px;
+  height : 108px;
+  border : 3px solid #8e015c;
+  cursor: pointer;
+}
+
+.raygun-user-avatar-image {
+  width : 100px;
+  height : 100px;
+  border-radius: 100%;
+  background : #d62397;
+}
+
+.raygun-user-avatar-change {
+  position: absolute;
+  text-align: center;
+  width: 90px;;
+  z-index: 10;
+  background: #d62397cc;
+  cursor : pointer;
+  padding: 6px;
+  border : 2px solid #8e015c;
+  border-radius: 18px;
+  font-weight: bold;
+  display: none;
+  color : white;
+  text-shadow: rgb(62, 162, 111) 2px 2px 8px, rgb(255, 49, 173) -2px -2px 8px, rgb(62, 162, 111) 2px -2px 8px, rgb(255, 49, 173) -2px 2px 10px, rgb(0, 0, 0) 0px 0px 10px;
+}
+
+.raygun-user-avatar-change:hover{
+  background: #a42195cc;
+}
+
+.raygun-user-avatar-input{
+  position: absolute;
+  top : 10000px;
+  left : 10000px;
+}
+
+.raygun-user-name {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.raygun-name-label {
+  font-weight: bold;
+  text-align: center;
+  font-size: 16px;
+  width : 90%;
+  margin-bottom: 2px;
+}
+
+.raygun-name-input {
+  width : 90%;
+  padding: 4px;
+  margin-top: 4px;
+  border-radius: 8px;
+  outline: none;
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+  border : 3px solid #8e015c;
+}

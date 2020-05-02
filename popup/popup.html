@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link href='popup.css' rel='stylesheet'/>
+    <script type="text/javascript" src="../scripts/jquery.js")></script>
+    <script type="text/javascript" src="../scripts/peer.js"></script>
+    <script type="text/javascript" src="../scripts/socket.js"></script>
+    <script type="text/javascript" src="../scripts/gun.js"></script>
+    <script type="text/javascript" src="../scripts/sea.js"></script>
+    <script type="text/javascript" src="../scripts/crypto.js"></script>
+    <script type="text/javascript" src="../scripts/compress.js"></script>
+  </head>
+  <body>
+    <div class="raygun-popup">
+      <div class="raygun-nav">
+        <div class="raygun-title">Valorian Raygun</div>
+      </div>
+      <div class="raygun-main">
+        <div class="raygun-config">
+          <div class="raygun-config-desc">Hi, it looks like you found the Valorian Raygun, the best tool for interdimensional travel. Please configure your Valorian RayGun now. If you have not configured your Valorian RayGun before, please create your credentials with the form below; otherwise use your existing credentials.</div>
+          <div class="raygun-config-form">
+            <div class="raygun-username-label config-label">Username</div>
+            <input class="raygun-username-input config-input" placeholder="Username"></input>
+            <div class="raygun-password-label config-label">Password</div>
+            <input class="raygun-password-input config-input" placeholder="Password" type="password"></input>
+            <div class="raygun-config-error"></div>
+            <div class="raygun-config-create">Register New Credentials</div>
+            <div class="raygun-config-login">Login with Existing Credentials</div>
+          </div>
+        </div>
+        <div class="raygun-app">
+          <div class="raygun-current-dimension">Current Dimension: Valoria</div>
+          <div class="raygun-user-avatar-label">Avatar</div>
+          <div class="raygun-user-avatar">
+            <img class="raygun-user-avatar-image" src="../assets/valoria.png"></img>
+            <div class="raygun-user-avatar-change">Change Your Avatar</div>
+            <input type="file" class="raygun-user-avatar-input"/>
+          </div>
+          <div class="raygun-user-name">
+            <div class="raygun-name-label">Name (Can be anything)</div>
+            <input class="raygun-name-input" placeholder="What is Your Name"></input>
+          </div>
+        </div>
+    </div>
+  </body>
+  <script type="text/javascript" src="popup.js"></script>
+</html>
