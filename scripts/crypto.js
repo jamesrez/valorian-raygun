@@ -58,7 +58,7 @@ async function unwrapSecretKey(wrappedKeyBase64, salt, keyMaterial, cb) {
   fetch(wrappedKeyBase64)
     .then(res => res.arrayBuffer())
     .then(async (wrappedKeyBuffer) => {
-      const unwrappedKey = await window.crypto.subtle.unwrapKey(
+      window.crypto.subtle.unwrapKey(
         "raw",                 // import format
         wrappedKeyBuffer,      // ArrayBuffer representing key to unwrap
         unwrappingKey,         // CryptoKey representing key encryption key
@@ -66,8 +66,9 @@ async function unwrapSecretKey(wrappedKeyBase64, salt, keyMaterial, cb) {
         "AES-GCM",             // algorithm identifier for key to unwrap
         true,                  // extractability of key to unwrap
         ["encrypt", "decrypt"] // key usages for key to unwrap
-      );
-      cb(unwrappedKey)
+      ).then((unwrappedKey) => {
+        cb(unwrappedKey)
+      })
     })
 }
 

@@ -3,7 +3,7 @@
    "version": "1.0",
    "description": "Welcome to the World of the Web. Make Sure to Carry your Raygun at all Times. ",
    "manifest_version": 2,
-   "permissions": ["runtime", "activeTab", "declarativeContent", "storage", "identity"],
+   "permissions": ["runtime", "activeTab", "declarativeContent", "tabs", "storage", "identity"],
    "icons": {
      "128" : "assets/valoria.png"
    },
@@ -16,6 +16,9 @@
        "css": ["main/index.css"]
      }
    ],
+   "background": {
+     "scripts" : ["background.js"]
+   },
    "browser_action": {
       "default_popup": "popup/popup.html",
       "default_icon": {
