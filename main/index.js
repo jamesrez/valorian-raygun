@@ -15,6 +15,7 @@ let username;
 let password;
 let avatar;
 let name;
+// let myAudio;
 let dimPeers = {};
 let userPeers = {};
 
@@ -46,6 +47,13 @@ $(document).ready(async () => {
     height : biggestHeight,
     minHeight : biggestHeight
   })
+  chrome.storage.sync.get(['raygunHidden'], (res) => {
+    if(res.raygunHidden){
+      $(all).css('display', 'none');
+    }else{
+      $(all).css('display', 'flex');
+    }
+  });
 
   let waitingForAuth = setInterval(() => {
     chrome.storage.sync.get(['raygunUsername', 'raygunPassword'], (result) => {
@@ -68,17 +76,30 @@ $(document).ready(async () => {
 
 socket.on("New User Peer", (peerId) => {
   userPeers[peerId] = peer.connect(peerId);
-  console.log(peerId)
   syncPeer(userPeers[peerId]);
 })
 
 const startApp = async (d) => {
+
+  // navigator.mediaDevices.getUserMedia({"audio": {
+  //               "mandatory": {
+  //                   "googEchoCancellation": "false",
+  //                   "googAutoGainControl": "false",
+  //                   "googNoiseSuppression": "false",
+  //                   "googHighpassFilter": "false"
+  //               },
+  //               "optional": []
+  //           }, "audio": "false"})
+  //   .then(function(stream) {
+  //     myAudio = stream;
+  //   })
+
   //CREATE MESSAGE INPUT
   let messageEl = document.createElement('div');
   messageEl.className = 'raygun-message';
   let messageElInput = document.createElement('input');
   messageElInput.className = 'raygun-message-input';
-  $(messageElInput).attr('placeholder', "Press <T> to Type a Message!");
+  $(messageElInput).attr('placeholder', "Press <T> to Type a Message! Also <H> Hides Everything.");
   messageEl.append(messageElInput)
   $('.raygun-all').append(messageEl);
 
@@ -92,13 +113,16 @@ const startApp = async (d) => {
   //HOTKEYS
   $(document.body).on('keyup', (e) => {
     if(userIsTyping) return;
+    if($(this).is(':focus')) return;
     if(e.key === "t"){
       messageElInput.focus();
     }
     if(e.key === "h"){
       if($('.raygun-all').css('display') === 'flex'){
+        chrome.storage.sync.set({raygunHidden : true});
         $('.raygun-all').css('display', 'none')
       }else{
+        chrome.storage.sync.set({raygunHidden : false});
         $('.raygun-all').css('display', 'flex')
       }
     }
@@ -168,6 +192,8 @@ const startApp = async (d) => {
         if(dimPeers[peerId] || userPeers[peerId]) continue;
         dimPeers[peerId] = peer.connect(peerId);
         syncPeer(dimPeers[peerId]);
+        // var call = peer.call(peerId, myAudio);
+        // handleCall(call);
       }
     }
   })
@@ -178,6 +204,11 @@ peer.on('connection', function(conn) {
   dimPeers[conn.peer] = conn;
   syncPeer(conn);
 })
+
+// peer.on('call', function(call) {
+//   call.answer(myAudio);
+//   handleCall(call);
+// });
 
 socket.on("Peer Has Left", async (peerId) => {
   delete dimPeers[peerId];
@@ -242,3 +273,12 @@ const syncPeer = async (conn) => {
     })
   }
 }
+
+// const handleCall = async (call) => {
+//   call.on('stream', function(stream) {
+//     var audio = $('<video autoplay />').appendTo('body');
+//     console.log(audio)
+//     audio[0].srcObject = stream;
+//
+//   });
+// }
