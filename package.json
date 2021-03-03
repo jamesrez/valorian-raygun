@@ -18,6 +18,6 @@
     "orbit-db": "github:orbitdb/orbit-db#fix/persistent-keystore",
     "orbit-db-identity-provider": "^0.3.0",
     "orbit-db-keystore": "^0.3.4",
-    "pug": "^2.0.4"
+    "pug": "^3.0.1"
   }
 }
